@@ -1,0 +1,185 @@
+{
+  "pacientes": [
+    {
+      "IdPaciente": 1,
+      "Nombre": "María",
+      "Apellido": "González",
+      "DNI": "35123456",
+      "Edad": 28,
+      "Sexo": "F",
+      "ObraSocial": "OSDE",
+      "NroAfiliado": "123456789"
+    },
+    {
+      "IdPaciente": 2,
+      "Nombre": "Carlos",
+      "Apellido": "Rodríguez",
+      "DNI": "42987654",
+      "Edad": 45,
+      "Sexo": "M",
+      "ObraSocial": "Swiss Medical",
+      "NroAfiliado": "987654321"
+    },
+    {
+      "IdPaciente": 3,
+      "Nombre": "Ana",
+      "Apellido": "López",
+      "DNI": "38456789",
+      "Edad": 32,
+      "Sexo": "F",
+      "ObraSocial": "Galeno",
+      "NroAfiliado": "456789123"
+    },
+    {
+      "IdPaciente": 4,
+      "Nombre": "Roberto",
+      "Apellido": "Martínez",
+      "DNI": "29876543",
+      "Edad": 58,
+      "Sexo": "M",
+      "ObraSocial": "IOMA",
+      "NroAfiliado": "789123456"
+    },
+    {
+      "IdPaciente": 5,
+      "Nombre": "Laura",
+      "Apellido": "Fernández",
+      "DNI": "41234567",
+      "Edad": 36,
+      "Sexo": "F",
+      "ObraSocial": "Medicus",
+      "NroAfiliado": "234567890"
+    }
+  ],
+  "medicos": [
+    {
+      "IdMedico": 1,
+      "Nombre": "Dr. Juan",
+      "Apellido": "Pérez",
+      "DNI": "25123456",
+      "Especialidad": "Cardiología"
+    },
+    {
+      "IdMedico": 2,
+      "Nombre": "Dra. Patricia",
+      "Apellido": "Silva",
+      "DNI": "28987654",
+      "Especialidad": "Dermatología"
+    },
+    {
+      "IdMedico": 4,
+      "Nombre": "Dra. Carmen",
+      "Apellido": "Ruiz",
+      "DNI": "27876543",
+      "Especialidad": "Ginecología"
+    },
+    {
+      "IdMedico": 5,
+      "Nombre": "Dr. Alejandro",
+      "Apellido": "Morales",
+      "DNI": "30234567",
+      "Especialidad": "Pediatría"
+    },
+    {
+      "IdMedico": 6,
+      "Nombre": "Dr. Lucas",
+      "Apellido": "Tarantino",
+      "DNI": "95852748",
+      "Especialidad": "Ginecología"
+    },
+    {
+      "IdMedico": 7,
+      "Nombre": "Dr. Lucas",
+      "Apellido": "Tarantino",
+      "DNI": "95852747",
+      "Especialidad": "Ginecología"
+    },
+    {
+      "IdMedico": 8,
+      "Nombre": "Dr. Lucas",
+      "Apellido": "Tarantino",
+      "DNI": "95852749",
+      "Especialidad": "Ginecología"
+    },
+    {
+      "IdMedico": 9,
+      "Nombre": "Jorge",
+      "Apellido": "Rodriguez",
+      "DNI": "21737911",
+      "Especialidad": "Medicina General"
+    },
+    {
+      "IdMedico": 10,
+      "Nombre": "Jorge",
+      "Apellido": "Perez",
+      "DNI": "21737918",
+      "Especialidad": "Pediatría"
+    }
+  ],
+  "turnos": [
+    {
+      "IdTurno": 1,
+      "Fecha": "2024-01-15",
+      "HoraInicio": "09:00",
+      "HoraFin": "09:30",
+      "IdPaciente": 1,
+      "IdMedico": 1
+    },
+    {
+      "IdTurno": 2,
+      "Fecha": "2024-01-15",
+      "HoraInicio": "10:00",
+      "HoraFin": "10:30",
+      "IdPaciente": 2,
+      "IdMedico": 2
+    },
+    {
+      "IdTurno": 3,
+      "Fecha": "2024-01-16",
+      "HoraInicio": "14:00",
+      "HoraFin": "14:30",
+      "IdPaciente": 3,
+      "IdMedico": 3
+    },
+    {
+      "IdTurno": 4,
+      "Fecha": "2024-01-16",
+      "HoraInicio": "15:30",
+      "HoraFin": "16:00",
+      "IdPaciente": 4,
+      "IdMedico": 4
+    },
+    {
+      "IdTurno": 5,
+      "Fecha": "2024-01-17",
+      "HoraInicio": "11:00",
+      "HoraFin": "11:30",
+      "IdPaciente": 5,
+      "IdMedico": 5
+    },
+    {
+      "IdTurno": 6,
+      "Fecha": "2024-01-17",
+      "HoraInicio": "16:00",
+      "HoraFin": "16:30",
+      "IdPaciente": 1,
+      "IdMedico": 3
+    },
+    {
+      "IdTurno": 7,
+      "Fecha": "2024-01-18",
+      "HoraInicio": "08:30",
+      "HoraFin": "09:00",
+      "IdPaciente": 2,
+      "IdMedico": 1
+    },
+    {
+      "IdTurno": 8,
+      "Fecha": "2024-01-18",
+      "HoraInicio": "13:00",
+      "HoraFin": "13:30",
+      "IdPaciente": 3,
+      "IdMedico": 2
+    }
+  ]
+}

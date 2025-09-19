@@ -1,0 +1,175 @@
+doctype html
+html(lang='es')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title= title
+    style.
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        backdrop-filter: blur(10px);
+      }
+      h1 {
+        color: #4a5568;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+      }
+      .status {
+        background: linear-gradient(135deg, #48bb78, #38a169);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+      }
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+      .info-card {
+        background: #f7fafc;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+      }
+      .info-card h3 {
+        margin: 0 0 10px 0;
+        color: #2d3748;
+      }
+      .info-card p {
+        margin: 0;
+        color: #4a5568;
+      }
+      .endpoints {
+        background: #edf2f7;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+      .endpoint {
+        background: white;
+        padding: 10px 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border-left: 3px solid #667eea;
+        font-family: 'Courier New', monospace;
+      }
+      .badge {
+        display: inline-block;
+        background: #667eea;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8em;
+        margin-left: 10px;
+      }
+      .navigation {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+      .nav-button {
+        display: block;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 20px;
+        text-decoration: none;
+        border-radius: 10px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.1em;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      }
+      .nav-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        color: white;
+        text-decoration: none;
+      }
+      .nav-button .icon {
+        font-size: 2em;
+        display: block;
+        margin-bottom: 10px;
+      }
+  body
+    .container
+      h1 🚀 #{title}
+      
+      .status
+        h3 ✅ #{message}
+        p= description
+      
+      .info-grid
+        .info-card
+          h3 🎨 Motor de Vistas
+          p Pug (anteriormente Jade)
+        
+        .info-card
+          h3 📦 Sistema de Módulos
+          p ES6 Modules (import/export)
+        
+        .info-card
+          h3 🏗️ Arquitectura
+          p Modelo-Vista-Controlador (MVC)
+        
+        .info-card
+          h3 ⚡ Framework
+          p Express.js + Node.js
+      
+      .navigation
+        a.nav-button(href='/pacientes')
+          span.icon 🏥
+          | Gestión de Pacientes
+        
+        a.nav-button(href='/medicos')
+          span.icon 👨‍⚕️
+          | Gestión de Médicos
+        
+        a.nav-button(href='/turnos')
+          span.icon 📅
+          | Gestión de Turnos
+      
+      .endpoints
+        h3 🔗 Endpoints Disponibles
+        
+        .endpoint
+          strong GET /
+          span.badge HTML
+          | - Página principal (esta página)
+        
+        .endpoint
+          strong GET /api/status
+          span.badge JSON
+          | - Estado de la API
+        
+        .endpoint
+          strong GET /api/pacientes
+          span.badge JSON
+          | - Gestión de pacientes
+        
+        .endpoint
+          strong GET /api/medicos
+          span.badge JSON
+          | - Gestión de médicos
+        
+        .endpoint
+          strong GET /api/turnos
+          span.badge JSON
+          | - Gestión de turnos
