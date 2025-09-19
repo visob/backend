@@ -224,8 +224,9 @@ html(lang='es')
       .form-section#update-form
         h3 ✏️ Modificar Paciente
         .form-group
-          label(for='updateId') ID del Paciente:
-          input(type='number' id='updateId' name='updateId' required)
+          label(for='updatePacienteSelect') Seleccionar Paciente:
+          select(id='updatePacienteSelect' name='updatePacienteSelect' required)
+            option(value='') Seleccionar paciente...
           button.submit-button(onclick='loadPacienteData()') Cargar Datos
         form(onsubmit='updatePaciente(event)' style='display:none' id='update-data-form')
           .form-group
@@ -271,6 +272,11 @@ html(lang='es')
         
         // Mostrar el formulario seleccionado
         document.getElementById(formType + '-form').classList.add('active');
+        
+        // Cargar pacientes en el desplegable si es el formulario de modificar
+        if (formType === 'update') {
+          loadPacientesDropdown();
+        }
         
         // Limpiar resultados
         const results = document.querySelectorAll('.result');
@@ -368,10 +374,31 @@ html(lang='es')
         }
       }
 
+      async function loadPacientesDropdown() {
+        try {
+          const response = await fetch('/api/pacientes');
+          const result = await response.json();
+          
+          if (response.ok) {
+            const select = document.getElementById('updatePacienteSelect');
+            select.innerHTML = '<option value="">Seleccionar paciente...</option>';
+            
+            result.data.forEach(paciente => {
+              const option = document.createElement('option');
+              option.value = paciente.IdPaciente;
+              option.textContent = `${paciente.Nombre} ${paciente.Apellido} - DNI: ${paciente.DNI}`;
+              select.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error('Error cargando pacientes:', error);
+        }
+      }
+
       async function loadPacienteData() {
-        const id = document.getElementById('updateId').value;
+        const id = document.getElementById('updatePacienteSelect').value;
         if (!id) {
-          showResult('update-result', '❌ Por favor ingrese un ID', false);
+          showResult('update-result', '❌ Por favor seleccione un paciente', false);
           return;
         }
         
@@ -401,7 +428,7 @@ html(lang='es')
 
       async function updatePaciente(event) {
         event.preventDefault();
-        const id = document.getElementById('updateId').value;
+        const id = document.getElementById('updatePacienteSelect').value;
         const formData = new FormData(event.target);
         const data = {
           Nombre: formData.get('updateNombre'),

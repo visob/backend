@@ -236,8 +236,9 @@ html(lang='es')
       .form-section#update-form
         h3 ✏️ Modificar Médico
         .form-group
-          label(for='updateId') ID del Médico:
-          input(type='number' id='updateId' name='updateId' required)
+          label(for='updateMedicoSelect') Seleccionar Médico:
+          select(id='updateMedicoSelect' name='updateMedicoSelect' required)
+            option(value='') Seleccionar médico...
           button.submit-button(onclick='loadMedicoData()') Cargar Datos
         form(onsubmit='updateMedico(event)' style='display:none' id='update-data-form')
           .form-group
@@ -281,6 +282,11 @@ html(lang='es')
         
         // Mostrar el formulario seleccionado
         document.getElementById(formType + '-form').classList.add('active');
+        
+        // Cargar médicos en el desplegable si es el formulario de modificar
+        if (formType === 'update') {
+          loadMedicosDropdown();
+        }
         
         // Limpiar resultados
         const results = document.querySelectorAll('.result');
@@ -399,10 +405,31 @@ html(lang='es')
         }
       }
 
+      async function loadMedicosDropdown() {
+        try {
+          const response = await fetch('/api/medicos');
+          const result = await response.json();
+          
+          if (response.ok) {
+            const select = document.getElementById('updateMedicoSelect');
+            select.innerHTML = '<option value="">Seleccionar médico...</option>';
+            
+            result.data.forEach(medico => {
+              const option = document.createElement('option');
+              option.value = medico.IdMedico;
+              option.textContent = `${medico.Nombre} ${medico.Apellido} - DNI: ${medico.DNI}`;
+              select.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error('Error cargando médicos:', error);
+        }
+      }
+
       async function loadMedicoData() {
-        const id = document.getElementById('updateId').value;
+        const id = document.getElementById('updateMedicoSelect').value;
         if (!id) {
-          showResult('update-result', '❌ Por favor ingrese un ID', false);
+          showResult('update-result', '❌ Por favor seleccione un médico', false);
           return;
         }
         
@@ -429,7 +456,7 @@ html(lang='es')
 
       async function updateMedico(event) {
         event.preventDefault();
-        const id = document.getElementById('updateId').value;
+        const id = document.getElementById('updateMedicoSelect').value;
         const formData = new FormData(event.target);
         
         // Construir el objeto con los nombres de parámetros correctos
