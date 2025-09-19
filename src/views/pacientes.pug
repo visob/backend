@@ -290,7 +290,15 @@ html(lang='es')
       async function createPaciente(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData);
+        const data = {
+          Nombre: formData.get('nombre'),
+          Apellido: formData.get('apellido'),
+          DNI: formData.get('dni'),
+          Edad: formData.get('edad'),
+          Sexo: formData.get('sexo'),
+          ObraSocial: formData.get('obraSocial'),
+          NroAfiliado: formData.get('nroAfiliado')
+        }
         
         try {
           const response = await fetch('/api/pacientes', {
@@ -395,7 +403,15 @@ html(lang='es')
         event.preventDefault();
         const id = document.getElementById('updateId').value;
         const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData);
+        const data = {
+          Nombre: formData.get('updateNombre'),
+          Apellido: formData.get('updateApellido'),
+          DNI: formData.get('updateDni'),
+          Edad: formData.get('updateEdad'),
+          Sexo: formData.get('updateSexo'),
+          ObraSocial: formData.get('updateObraSocial'),
+          NroAfiliado: formData.get('updateNroAfiliado')
+        }
         
         try {
           const response = await fetch(`/api/pacientes/${id}`, {

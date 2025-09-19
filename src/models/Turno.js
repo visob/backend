@@ -42,6 +42,16 @@ class Turno {
             errors.push('La hora de inicio debe ser anterior a la hora de fin');
         }
 
+        // Validar que la fecha y hora sean posteriores al momento actual
+        if (this.Fecha && this.HoraInicio && this.isValidDate(this.Fecha) && this.isValidTime(this.HoraInicio)) {
+            const fechaHoraTurno = new Date(`${this.Fecha}T${this.HoraInicio}:00`);
+            const ahora = new Date();
+            
+            if (fechaHoraTurno <= ahora) {
+                errors.push('La fecha y hora del turno deben ser posteriores al momento actual');
+            }
+        }
+
         // Validar que el paciente existe
         if (!this.IdPaciente) {
             errors.push('El ID del paciente es requerido');
@@ -158,12 +168,21 @@ class Turno {
         const turnos = await this.getAll();
         
         return turnos.some(turno => {
+            // Excluir el turno actual si se está editando
             if (excludeId && turno.IdTurno == excludeId) return false;
+            
+            // Solo verificar turnos del mismo médico
             if (turno.IdMedico != idMedico) return false;
+            
+            // Solo verificar turnos de la misma fecha
             if (turno.Fecha !== fecha) return false;
             
-            // Verificar solapamiento de horarios
-            return (horaInicio < turno.HoraFin && horaFin > turno.HoraInicio);
+            // Verificar solapamiento de horarios usando lógica de intervalos
+            // Dos intervalos se solapan si: inicio1 < fin2 && inicio2 < fin1
+            // En nuestro caso: horaInicio < turno.HoraFin && turno.HoraInicio < horaFin
+            const hayConflicto = (horaInicio < turno.HoraFin && turno.HoraInicio < horaFin);
+            
+            return hayConflicto;
         });
     }
 

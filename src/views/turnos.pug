@@ -275,7 +275,28 @@ html(lang='es')
       window.onload = function() {
         loadPacientes();
         loadMedicos();
+        setMinDateTime();
       };
+
+      function setMinDateTime() {
+        const today = new Date().toISOString().split('T')[0];
+        const fechaInputs = ['fecha', 'updateFecha'];
+        fechaInputs.forEach(id => {
+          const input = document.getElementById(id);
+          if (input) {
+            input.min = today;
+          }
+        });
+      }
+
+      function validateDateTime(fecha, hora) {
+        if (!fecha || !hora) return true; // Si no están completos, no validar aquí
+        
+        const fechaHoraTurno = new Date(`${fecha}T${hora}:00`);
+        const ahora = new Date();
+        
+        return fechaHoraTurno > ahora;
+      }
 
       async function loadPacientes() {
         try {
@@ -373,7 +394,19 @@ html(lang='es')
       async function createTurno(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData);
+        const data = {
+          Fecha: formData.get('fecha'),
+          HoraInicio: formData.get('horaInicio'),
+          HoraFin: formData.get('horaFin'),
+          IdPaciente: formData.get('idPaciente'),
+          IdMedico: formData.get('idMedico'),
+        }
+        
+        // Validar fecha y hora
+        if (!validateDateTime(data.fecha, data.horaInicio)) {
+          showResult('create-result', '❌ La fecha y hora del turno deben ser posteriores al momento actual', false);
+          return;
+        }
         
         // Convertir IDs a números
         data.idPaciente = parseInt(data.idPaciente);
@@ -533,11 +566,23 @@ html(lang='es')
         event.preventDefault();
         const id = document.getElementById('updateId').value;
         const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData);
+        const data = {
+          Fecha: formData.get('updateFecha'),
+          HoraInicio: formData.get('updateHoraInicio'),
+          HoraFin: formData.get('updateHoraFin'),
+          IdPaciente: formData.get('updateIdPaciente'),
+          IdMedico: formData.get('updateIdMedico')
+        }
+        
+        // Validar fecha y hora
+        if (!validateDateTime(data.Fecha, data.HoraInicio)) {
+          showResult('update-result', '❌ La fecha y hora del turno deben ser posteriores al momento actual', false);
+          return;
+        }
         
         // Convertir IDs a números
-        data.idPaciente = parseInt(data.idPaciente);
-        data.idMedico = parseInt(data.idMedico);
+        data.IdPaciente = parseInt(data.IdPaciente);
+        data.IdMedico = parseInt(data.IdMedico);
         
         try {
           const response = await fetch(`/api/turnos/${id}`, {

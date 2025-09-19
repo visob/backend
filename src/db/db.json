@@ -2,10 +2,10 @@
   "pacientes": [
     {
       "IdPaciente": 1,
-      "Nombre": "María",
+      "Nombre": "Fernanda",
       "Apellido": "González",
       "DNI": "35123456",
-      "Edad": 28,
+      "Edad": "28",
       "Sexo": "F",
       "ObraSocial": "OSDE",
       "NroAfiliado": "123456789"
@@ -119,10 +119,10 @@
   "turnos": [
     {
       "IdTurno": 1,
-      "Fecha": "2024-01-15",
+      "Fecha": "2025-09-30",
       "HoraInicio": "09:00",
       "HoraFin": "09:30",
-      "IdPaciente": 1,
+      "IdPaciente": 3,
       "IdMedico": 1
     },
     {
@@ -180,6 +180,14 @@
       "HoraFin": "13:30",
       "IdPaciente": 3,
       "IdMedico": 2
+    },
+    {
+      "IdTurno": 9,
+      "Fecha": "2025-09-20",
+      "HoraInicio": "12:50",
+      "HoraFin": "13:25",
+      "IdPaciente": 1,
+      "IdMedico": 10
     }
   ]
 }
