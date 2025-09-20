@@ -1,26 +1,6 @@
 {
   "pacientes": [
     {
-      "IdPaciente": 1,
-      "Nombre": "Fernanda",
-      "Apellido": "González",
-      "DNI": "35123456",
-      "Edad": "28",
-      "Sexo": "F",
-      "ObraSocial": "OSDE",
-      "NroAfiliado": "123456789"
-    },
-    {
-      "IdPaciente": 2,
-      "Nombre": "Carlos",
-      "Apellido": "Rodríguez",
-      "DNI": "42987654",
-      "Edad": 45,
-      "Sexo": "M",
-      "ObraSocial": "Swiss Medical",
-      "NroAfiliado": "987654321"
-    },
-    {
       "IdPaciente": 3,
       "Nombre": "Ana",
       "Apellido": "López",
@@ -49,6 +29,26 @@
       "Sexo": "F",
       "ObraSocial": "Medicus",
       "NroAfiliado": "234567890"
+    },
+    {
+      "IdPaciente": 6,
+      "Nombre": "Judit",
+      "Apellido": "Spark",
+      "DNI": "12121212",
+      "Edad": "12",
+      "Sexo": "F",
+      "ObraSocial": "OSDE",
+      "NroAfiliado": "12121212"
+    },
+    {
+      "IdPaciente": 7,
+      "Nombre": "Pedro",
+      "Apellido": "Gómez",
+      "DNI": "44556677",
+      "Edad": 29,
+      "Sexo": "M",
+      "ObraSocial": "OSDE",
+      "NroAfiliado": "12345"
     }
   ],
   "medicos": [
@@ -58,13 +58,6 @@
       "Apellido": "Pérez",
       "DNI": "25123456",
       "Especialidad": "Cardiología"
-    },
-    {
-      "IdMedico": 2,
-      "Nombre": "Dra. Patricia",
-      "Apellido": "Silva",
-      "DNI": "28987654",
-      "Especialidad": "Dermatología"
     },
     {
       "IdMedico": 4,
@@ -118,14 +111,6 @@
   ],
   "turnos": [
     {
-      "IdTurno": 1,
-      "Fecha": "2025-09-30",
-      "HoraInicio": "09:00",
-      "HoraFin": "09:30",
-      "IdPaciente": 3,
-      "IdMedico": 1
-    },
-    {
       "IdTurno": 2,
       "Fecha": "2024-01-15",
       "HoraInicio": "10:00",
@@ -151,19 +136,11 @@
     },
     {
       "IdTurno": 5,
-      "Fecha": "2024-01-17",
+      "Fecha": "2025-09-20",
       "HoraInicio": "11:00",
       "HoraFin": "11:30",
       "IdPaciente": 5,
       "IdMedico": 5
-    },
-    {
-      "IdTurno": 6,
-      "Fecha": "2024-01-17",
-      "HoraInicio": "16:00",
-      "HoraFin": "16:30",
-      "IdPaciente": 1,
-      "IdMedico": 3
     },
     {
       "IdTurno": 7,
@@ -188,6 +165,30 @@
       "HoraFin": "13:25",
       "IdPaciente": 1,
       "IdMedico": 10
+    },
+    {
+      "IdTurno": 10,
+      "Fecha": "2025-10-22",
+      "HoraInicio": "11:30",
+      "HoraFin": "11:40",
+      "IdPaciente": 1,
+      "IdMedico": 1
+    },
+    {
+      "IdTurno": 11,
+      "Fecha": "2025-10-11",
+      "HoraInicio": "11:30",
+      "HoraFin": "11:40",
+      "IdPaciente": 1,
+      "IdMedico": 1
+    },
+    {
+      "IdTurno": 12,
+      "Fecha": "2025-09-20",
+      "HoraInicio": "13:50",
+      "HoraFin": "14:25",
+      "IdPaciente": 6,
+      "IdMedico": 8
     }
   ]
 }

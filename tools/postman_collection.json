@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "Backend IFTS-29 - Postman Collection",
+    "_postman_id": "b1f5e9a0-0000-4000-8000-000000000000",
+    "description": "Colección básica para probar el backend local (endpoints de pacientes, medicos y turnos)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000", "type": "string" },
+      { "key": "createdPacienteId", "value": "1", "type": "string" },
+      { "key": "createdPacienteDNI", "value": "12345678", "type": "string" },
+      { "key": "createdPacienteObra", "value": "OSDE", "type": "string" },
+      { "key": "createdMedicoId", "value": "2", "type": "string" },
+      { "key": "createdMedicoDNI", "value": "87654321", "type": "string" },
+      { "key": "createdTurnoId", "value": "1", "type": "string" }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          "// Ensure default variables so URLs/bodies are not empty in Runner",
+          "const setIfEmpty = (getter, setter, key, value) => { try { if (!getter(key)) setter(key, value); } catch(e) {} };",
+          "setIfEmpty(pm.environment.get, pm.environment.set, 'createdPacienteId', '1');",
+          "setIfEmpty(pm.environment.get, pm.environment.set, 'createdPacienteDNI', '12345678');",
+          "setIfEmpty(pm.environment.get, pm.environment.set, 'createdPacienteObra', 'OSDE');",
+          "setIfEmpty(pm.environment.get, pm.environment.set, 'createdMedicoId', '2');",
+          "setIfEmpty(pm.environment.get, pm.environment.set, 'createdMedicoDNI', '87654321');",
+          "setIfEmpty(pm.environment.get, pm.environment.set, 'createdTurnoId', '1');",
+          "// Also set globals so Runner with 'No Environment' works",
+          "setIfEmpty(pm.globals.get, pm.globals.set, 'createdPacienteId', '1');",
+          "setIfEmpty(pm.globals.get, pm.globals.set, 'createdPacienteDNI', '12345678');",
+          "setIfEmpty(pm.globals.get, pm.globals.set, 'createdPacienteObra', 'OSDE');",
+          "setIfEmpty(pm.globals.get, pm.globals.set, 'createdMedicoId', '2');",
+          "setIfEmpty(pm.globals.get, pm.globals.set, 'createdMedicoDNI', '87654321');",
+          "setIfEmpty(pm.globals.get, pm.globals.set, 'createdTurnoId', '1');"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Status",
+      "item": [
+        {
+          "name": "GET /api/status",
+          "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/status" } },
+          "event": [ { "listen": "test", "script": { "exec": [ "pm.test(\"Status 200\", function () {", "  pm.response.to.have.status(200);", "});", "pm.test(\"Body contains status\", function () {", "  const json = pm.response.json();", "  pm.expect(json).to.have.property('status');", "  pm.expect(json.status).to.eql('success');", "});" ], "type": "text/javascript" } } ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pacientes",
+      "item": [
+        {
+          "name": "GET /api/pacientes",
+          "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/pacientes" } },
+          "event": [ { "listen": "test", "script": { "exec": [ "pm.test(\"List pacientes 200\", function () {", "  pm.response.to.have.status(200);", "});", "pm.test(\"Response success and data array\", function () {", "  const json = pm.response.json();", "  pm.expect(json).to.have.property('success', true);", "  pm.expect(json).to.have.property('data');", "  pm.expect(json.data).to.be.an('array');", "});" ], "type": "text/javascript" } } ],
+          "response": []
+        },
+  { "name": "GET /api/pacientes/:id", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/pacientes/1" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET paciente by id returns 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('response has data', function () { pm.expect(json).to.have.property('data'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/pacientes/dni/:dni", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/pacientes/dni/12345678" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET paciente by dni 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('response has data', function () { pm.expect(json).to.have.property('data'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/pacientes/obra-social/:obraSocial", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/pacientes/obra-social/OSDE" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET pacientes by obra 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('response has data array', function () { pm.expect(json).to.have.property('data'); pm.expect(json.data).to.be.an('array'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+        {
+          "name": "POST /api/pacientes",
+          "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Juan\",\n  \"apellido\": \"Perez\",\n  \"dni\": \"12345678\",\n  \"obraSocial\": \"OSDE\",\n  \"telefono\": \"11-1234-5678\",\n  \"email\": \"juan.perez@example.com\"\n}" }, "url": { "raw": "http://localhost:3000/api/pacientes" } },
+          "event": [ { "listen": "test", "script": { "exec": [ "pm.test(\"Created 201\", function () {", "  pm.response.to.have.status(201);", "});", "pm.test(\"Response has data object\", function () {", "  const json = pm.response.json();", "  pm.expect(json).to.have.property('success', true);", "  pm.expect(json).to.have.property('data');", "});", "try { const json = pm.response.json(); if (json && json.data) { if (json.data.id) { pm.environment.set('createdPacienteId', json.data.id); } if (json.data.dni) { pm.environment.set('createdPacienteDNI', json.data.dni); } if (json.data.obraSocial) { pm.environment.set('createdPacienteObra', json.data.obraSocial); } } } catch(e) {}" ], "type": "text/javascript" } } ],
+          "response": []
+        },
+  { "name": "PUT /api/pacientes/:id", "request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Nombre actualizado\"\n}" }, "url": { "raw": "http://localhost:3000/api/pacientes/1" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('PUT paciente returns 200', function () {", "  pm.response.to.have.status(200);", "});" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "DELETE /api/pacientes/:id", "request": { "method": "DELETE", "header": [], "url": { "raw": "http://localhost:3000/api/pacientes/1" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('DELETE paciente returns 200', function () {", "  pm.response.to.have.status(200);", "});" ], "type": "text/javascript" } } ], "response": [] }
+      ]
+    },
+    {
+      "name": "Medicos",
+      "item": [
+  { "name": "GET /api/medicos", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/medicos" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET medicos list 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('has data array', function () { pm.expect(json).to.have.property('data'); pm.expect(json.data).to.be.an('array'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/medicos/:id", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/medicos/2" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET medico by id 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('response has data', function () { pm.expect(json).to.have.property('data'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/medicos/dni/:dni", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/medicos/dni/87654321" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET medico by dni 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('response has data', function () { pm.expect(json).to.have.property('data'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/medicos/especialidad/:especialidad", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/medicos/especialidad/Cardiologia" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET medicos by especialidad 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('response has data array', function () { pm.expect(json).to.have.property('data'); pm.expect(json.data).to.be.an('array'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/medicos/especialidades", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/medicos/especialidades" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET medicos especialidades 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('response has data', function () { pm.expect(json).to.have.property('data'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+        {
+          "name": "POST /api/medicos",
+          "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Ana\",\n  \"apellido\": \"Gomez\",\n  \"dni\": \"87654321\",\n  \"especialidad\": \"Cardiologia\"\n}" }, "url": { "raw": "http://localhost:3000/api/medicos" } },
+          "event": [ { "listen": "test", "script": { "exec": [ "pm.test(\"Created medico 201\", function () {", "  pm.response.to.have.status(201);", "});", "pm.test(\"Response has data\", function () {", "  const json = pm.response.json();", "  pm.expect(json).to.have.property('success', true);", "  pm.expect(json).to.have.property('data');", "});", "try { const json = pm.response.json(); if (json && json.data) { if (json.data.id) { pm.environment.set('createdMedicoId', json.data.id); } if (json.data.dni) { pm.environment.set('createdMedicoDNI', json.data.dni); } } } catch(e) {}" ], "type": "text/javascript" } } ],
+          "response": []
+        },
+  { "name": "PUT /api/medicos/:id", "request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"especialidad\": \"Traumatologia\"\n}" }, "url": { "raw": "http://localhost:3000/api/medicos/{{createdMedicoId}}" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('PUT medico returns 200', function () {", "  pm.response.to.have.status(200);", "});" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "DELETE /api/medicos/:id", "request": { "method": "DELETE", "header": [], "url": { "raw": "http://localhost:3000/api/medicos/{{createdMedicoId}}" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('DELETE medico returns 200', function () {", "  pm.response.to.have.status(200);", "});" ], "type": "text/javascript" } } ], "response": [] }
+      ]
+    },
+    {
+      "name": "Turnos",
+      "item": [
+  { "name": "GET /api/turnos", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/turnos" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET turnos list 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('has data array', function () { pm.expect(json).to.have.property('data'); pm.expect(json.data).to.be.an('array'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/turnos/:id", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/turnos/1" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET turno by id 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('response has data', function () { pm.expect(json).to.have.property('data'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/turnos/paciente/:idPaciente", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/turnos/paciente/1" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET turnos by paciente 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('has data array', function () { pm.expect(json).to.have.property('data'); pm.expect(json.data).to.be.an('array'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/turnos/medico/:idMedico", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/turnos/medico/2" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET turnos by medico 200', function () {", "  pm.response.to.have.status(200);", "});", "try { const json = pm.response.json(); pm.test('has data array', function () { pm.expect(json).to.have.property('data'); pm.expect(json.data).to.be.an('array'); }); } catch(e) {}" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/turnos/fecha/:fecha", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/turnos/fecha/2025-09-21" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET turnos by fecha 200', function () {", "  pm.response.to.have.status(200);", "});" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "GET /api/turnos/completos", "request": { "method": "GET", "header": [], "url": { "raw": "http://localhost:3000/api/turnos/completos" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('GET turnos completos 200', function () {", "  pm.response.to.have.status(200);", "});" ], "type": "text/javascript" } } ], "response": [] },
+        {
+          "name": "POST /api/turnos",
+          "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"idPaciente\": \"{{createdPacienteId}}\",\n  \"idMedico\": \"{{createdMedicoId}}\",\n  \"fecha\": \"2025-09-21\",\n  \"hora\": \"10:30\"\n}" }, "url": { "raw": "http://localhost:3000/api/turnos" } },
+          "event": [ { "listen": "test", "script": { "exec": [ "pm.test(\"Created turno 201\", function () {", "  pm.response.to.have.status(201);", "});", "pm.test(\"Response has data\", function () {", "  const json = pm.response.json();", "  pm.expect(json).to.have.property('success', true);", "  pm.expect(json).to.have.property('data');", "});", "try { const json = pm.response.json(); if (json && json.data && json.data.id) { pm.environment.set('createdTurnoId', json.data.id); } } catch(e) {}" ], "type": "text/javascript" } } ],
+          "response": []
+        },
+  { "name": "PUT /api/turnos/:id", "request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"hora\": \"11:00\"\n}" }, "url": { "raw": "http://localhost:3000/api/turnos/{{createdTurnoId}}" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('PUT turno returns 200', function () {", "  pm.response.to.have.status(200);", "});" ], "type": "text/javascript" } } ], "response": [] },
+  { "name": "DELETE /api/turnos/:id", "request": { "method": "DELETE", "header": [], "url": { "raw": "http://localhost:3000/api/turnos/{{createdTurnoId}}" } }, "event": [ { "listen": "test", "script": { "exec": [ "pm.test('DELETE turno returns 200', function () {", "  pm.response.to.have.status(200);", "});" ], "type": "text/javascript" } } ], "response": [] },
+        {
+          "name": "POST /api/turnos/verificar-conflicto",
+          "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"fecha\": \"2025-09-21\",\n  \"horaInicio\": \"10:30\",\n  \"horaFin\": \"11:00\",\n  \"idMedico\": \"{{createdMedicoId}}\"\n}" }, "url": { "raw": "http://localhost:3000/api/turnos/verificar-conflicto" } },
+          "event": [ { "listen": "test", "script": { "exec": [ "pm.test(\"Verificar conflicto 200\", function () {", "  pm.response.to.have.status(200);", "});", "pm.test(\"Response has hayConflicto boolean\", function () {", "  const json = pm.response.json();", "  pm.expect(json).to.have.property('success', true);", "  pm.expect(json).to.have.property('hayConflicto');", "  pm.expect(json.hayConflicto).to.be.a('boolean');", "});" ], "type": "text/javascript" } } ],
+          "response": []
+        }
+      ]
+    }
+  ]
+}
